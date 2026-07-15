@@ -38,4 +38,59 @@ const getAllItems = async(req,res) => {
     }
 }
 
-module.exports = { createItem,getAllItems };
+const getItemById = async(req,res) => {
+    try {
+        const {id} = req.params;
+        const findItem = await Item.findById(id);
+        if(!findItem){
+            return res.status(404).json({ msg: 'Itme not found'});  
+        }
+        res.status(200).json({
+            Item:{
+                id: findItem._id,
+                name: findItem.name,
+                description: findItem.description,
+                 price: findItem.price,
+                 category: findItem.category,
+                 image: findItem.image,
+                  stock: findItem.stock
+            }
+        })
+    } catch (error) {
+        res.status(500).json({ msg: 'failed to fetch item', error: error.message});
+    }
+}
+
+
+const deleteItem = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedItem = await Item.findByIdAndDelete(id);
+        if(!deletedItem){
+            return res.status(404).json({ msg: 'product not found'});
+        }
+        res.status(200).json({ msg: 'Item deleted successfully'});
+    } catch (error) {
+        res.status(500).json({ msg: "Failed to delete item", error:error.message});
+    }
+}
+
+const updateItem = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const updatedItem = await Item.findByIdAndUpdate(id, req.body, { new: true });
+
+        if (!updatedItem) {
+            return res.status(404).json({ msg: 'Item not found' });
+        }
+
+        res.status(200).json({ item: updatedItem });
+
+    } catch (error) {
+        res.status(500).json({ msg: 'Failed to update item', error: error.message });
+    }
+};
+
+
+module.exports = { createItem,getAllItems,getItemById, deleteItem,updateItem };
