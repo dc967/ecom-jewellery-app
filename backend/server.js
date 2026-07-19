@@ -4,8 +4,14 @@ const connectDB = require('./src/config/db')
 const authRoutes = require('./src/routes/auth_routes');
 const itemRoutes = require('./src/routes/items_routes')
 const orderRoutes = require('./src/routes/order_routes');
+const cors = require('cors');
 require('dotenv').config();
 const port = 3000
+
+app.use(cors({
+     origin: 'http://localhost:5173',
+     credentials: true
+}));
 
 app.use(express.json());
 app.use('/api/auth',authRoutes);
