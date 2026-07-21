@@ -1,27 +1,26 @@
 import { useState } from "react";
-import { useNavigate,Link } from "react-router-dom";
-import { loginUser } from "../services/authService";
+import { useNavigate, Link } from "react-router-dom";
+import { registerUser } from "../services/authService";
 import { Eye, EyeOff } from "lucide-react";
-import { useAuth } from "../context/AuthContext";
 
-function LoginPage() {
+function RegisterPage() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
-      const data = await loginUser(email, password);
-      login(data.user, data.accessToken);
+      const data = await registerUser(name, email, password);
+      localStorage.setItem("accessToken", data.accessToken);
       navigate("/");
     } catch (error) {
-      setError(error.response?.data?.msg || "Login failed");
+      setError(error.response?.data?.msg || "registration failed");
     }
   };
 
@@ -32,12 +31,21 @@ function LoginPage() {
         className="bg-white shadow-md rounded-lg p-8 w-full max-w-sm"
       >
         <h1 className="text-2xl font-bold text-center text-pink-600 mb-6">
-          Login
+          Register
         </h1>
 
         {error && (
           <p className="text-red-500 text-sm text-center mb-4">{error}</p>
         )}
+
+        <label className="block text-gray-700 mb-1">Name</label>
+        <input
+          type="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+          className="w-full border rounded px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-pink-400"
+        />
 
         <label className="block text-gray-700 mb-1">Email</label>
         <input
@@ -68,16 +76,15 @@ function LoginPage() {
 
         <button
           type="submit"
-         
           className="w-full bg-pink-600 text-white py-2 rounded hover:bg-pink-700 transition"
         >
-          Login
+          Register
         </button>
 
         <p className="text-center mt-4 text-sm text-gray-600">
-          New here?{" "}
-          <Link to="/register" className="text-pink-600">
-            Create an account
+          Already have an account?{" "}
+          <Link to="/login" className="text-pink-600">
+            Login here
           </Link>
         </p>
       </form>
@@ -85,4 +92,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default RegisterPage;
