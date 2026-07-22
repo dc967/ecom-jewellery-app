@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getAllItems } from "../services/itemService";
+import { Link } from 'react-router-dom';
 
 function CategoryPage(){
     const { categoryName } = useParams();
@@ -31,11 +32,13 @@ function CategoryPage(){
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {items.map((item) => (
-                <div key={item._id}>
-                    <img src={item.image} alt={item.name} className="w-full h-40 object-cover rounded" />
-                    <p className="font-semibold mt-2">{item.name}</p>
-                    <p className="text-pink-600">₹{item.price}</p>
-                </div>
+    <Link key={item._id} to={`/product/${item._id}`}>
+        <div className="bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition">
+            <img src={item.image} alt={item.name} className="w-full h-40 object-cover rounded" />
+            <p className="font-semibold mt-2">{item.name}</p>
+            <p className="text-pink-600">₹{item.price}</p>
+        </div>
+    </Link>
             ))}
         </div>
       </div> 

@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import Navbar from "./components/Navbar";
 import CategoryPage from "./pages/CategoryPage";
+import ProductDetailPage from "./pages/ProductDetailPage";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
          <Route path="/login" element={<LoginPage/>}/>
          <Route path="/category/:categoryName" element={<CategoryPage/>}/>
          <Route path="/register" element={<RegisterPage />} />
+         <Route path="/product/:id" element={<ProductDetailPage/>}/>
        </Routes>
     </BrowserRouter>
     </AuthProvider>

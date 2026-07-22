@@ -46,8 +46,8 @@ const getItemById = async(req,res) => {
             return res.status(404).json({ msg: 'Itme not found'});  
         }
         res.status(200).json({
-            Item:{
-                id: findItem._id,
+            item:{
+                _id: findItem._id,
                 name: findItem.name,
                 description: findItem.description,
                  price: findItem.price,
