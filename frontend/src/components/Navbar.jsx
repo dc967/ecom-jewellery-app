@@ -2,10 +2,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 
 function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const { user, logout } = useAuth();
+    const { cartCount } = useCart();
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -39,7 +41,15 @@ function Navbar() {
                     ) : (
                         <Link to="/login" className="text-gray-700 hover:text-pink-600">Login</Link>
                     )}
-                    <Link to="/cart" className="text-gray-700 hover:text-pink-600">Cart</Link>
+
+                    <Link to="/cart" className="relative text-gray-700 hover:text-pink-600">
+                        Cart
+                        {cartCount > 0 && (
+                            <span className="absolute -top-2 -right-3 bg-pink-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                                {cartCount}
+                            </span>
+                        )}
+                    </Link>
                 </div>
 
                 <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
@@ -62,7 +72,14 @@ function Navbar() {
                     ) : (
                         <Link to="/login" onClick={() => setIsOpen(false)}>Login</Link>
                     )}
-                    <Link to="/cart" onClick={() => setIsOpen(false)}>Cart</Link>
+                    <Link to="/cart" onClick={() => setIsOpen(false)} className="relative inline-block">
+                        Cart
+                        {cartCount > 0 && (
+                            <span className="ml-2 bg-pink-600 text-white text-xs rounded-full px-2 py-0.5">
+                                {cartCount}
+                            </span>
+                        )}
+                    </Link>
                 </div>
             )}
         </nav>

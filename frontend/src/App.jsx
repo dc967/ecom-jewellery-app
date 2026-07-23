@@ -6,13 +6,16 @@ import RegisterPage from "./pages/RegisterPage";
 import Navbar from "./components/Navbar";
 import CategoryPage from "./pages/CategoryPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
-
+import CartPage from './pages/CartPage';
+import { CartProvider } from "./context/CartContext";
+import MyOrdersPage from './pages/MyOrdersPage';
 
 function App() {
   
 
   return (
     <AuthProvider>
+      <CartProvider>
     <BrowserRouter>
        <Navbar/>
        <Routes>
@@ -21,8 +24,11 @@ function App() {
          <Route path="/category/:categoryName" element={<CategoryPage/>}/>
          <Route path="/register" element={<RegisterPage />} />
          <Route path="/product/:id" element={<ProductDetailPage/>}/>
+         <Route path="/cart" element={<CartPage />} />
+         <Route path="/my-orders" element={<MyOrdersPage />} />
        </Routes>
     </BrowserRouter>
+      </CartProvider>
     </AuthProvider>
   )
 }

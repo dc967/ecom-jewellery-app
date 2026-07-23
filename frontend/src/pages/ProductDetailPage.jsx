@@ -1,11 +1,14 @@
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getItemById } from "../services/itemService";
+import { useCart } from "../context/CartContext";
 
 function ProductDetailPage(){
     const { id } = useParams();
     const [item, setItem] = useState(null);
     const [loading, setLoding] = useState(true);
+    const [added, setAdded] = useState(false);
+    const { addToCart } = useCart();
 
      useEffect(() => {
         const fetchItem = async () => {
@@ -21,7 +24,14 @@ function ProductDetailPage(){
         };
             fetchItem();
      },[id]);
-    
+
+
+       const handleAddToCart = () => {
+           addToCart(item, 1);
+           setAdded(true);
+           setTimeout(() => setAdded(false), 2000);
+       };
+
      if(loading){
         return <p className="text-center mt-10">Loading...</p>
      }
@@ -52,10 +62,11 @@ function ProductDetailPage(){
                     </p>
 
                     <button 
+                        onClick={handleAddToCart}
                         disabled={item.stock === 0}
                         className="bg-pink-600 text-white px-6 py-3 rounded hover:bg-pink-700 transition disabled:bg-gray-300"
                     >
-                        Add to Cart
+                        {added ? 'Added ✓' : 'Add to Cart'}
                     </button>
                 </div>
             </div>
