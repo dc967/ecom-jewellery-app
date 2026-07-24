@@ -34,6 +34,7 @@ function Navbar() {
                     {user ? (
                         <>
                             <span className="text-gray-700">Hi, {user.name}</span>
+                            <Link to="/my-orders" className="text-gray-700 hover:text-pink-600">My Orders</Link>
                             <button onClick={handleLogout} className="text-gray-700 hover:text-pink-600">
                                 Logout
                             </button>
@@ -66,9 +67,12 @@ function Navbar() {
                     <Link to="/category/anklet" onClick={() => setIsOpen(false)}>Anklet</Link>
                     <hr className="my-1" />
                     {user ? (
-                        <button onClick={() => { handleLogout(); setIsOpen(false); }} className="text-left">
-                            Logout
-                        </button>
+                        <>
+                            <Link to="/my-orders" onClick={() => setIsOpen(false)}>My Orders</Link>
+                            <button onClick={() => { handleLogout(); setIsOpen(false); }} className="text-left">
+                                Logout
+                            </button>
+                        </>
                     ) : (
                         <Link to="/login" onClick={() => setIsOpen(false)}>Login</Link>
                     )}
