@@ -9,6 +9,7 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import CartPage from './pages/CartPage';
 import { CartProvider } from "./context/CartContext";
 import MyOrdersPage from './pages/MyOrdersPage';
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   
@@ -25,7 +26,14 @@ function App() {
          <Route path="/register" element={<RegisterPage />} />
          <Route path="/product/:id" element={<ProductDetailPage/>}/>
          <Route path="/cart" element={<CartPage />} />
-         <Route path="/my-orders" element={<MyOrdersPage />} />
+         <Route
+                path="/my-orders"
+                element={
+                  <ProtectedRoute>
+                    <MyOrdersPage/>
+                  </ProtectedRoute>
+                } 
+                />
        </Routes>
     </BrowserRouter>
       </CartProvider>
